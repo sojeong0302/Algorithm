@@ -1,15 +1,24 @@
 const fs = require("fs");
-const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-let input = fs.readFileSync(filePath).toString().trim().split("\n");
+const input = fs.readFileSync(0, "utf8").trim().split("\n");
 
-const N = Number(input[0]);
-const numbers = input[1].split(" ").map(Number);
-let Max = Math.max(...numbers);
-let mod = [];
+const N = input[0];
+let grade = input[1].split(" ").map(Number);
+let sum = 0;
 
-for (let i = 0; i < numbers.length; i++) {
-  mod.push((numbers[i] / Max) * 100);
+let M = 0;
+
+for (let j = 0; j < N; j++) {
+  if (M < grade[j]) {
+    M = grade[j];
+  }
 }
 
-const average = mod.reduce((a, b) => a + b) / mod.length;
-console.log(average.toFixed(2));
+for (let k = 0; k < N; k++) {
+  grade[k] = (grade[k] / M) * 100;
+}
+
+for (let i = 0; i < N; i++) {
+  sum += grade[i];
+}
+
+console.log(sum / N);
